@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Расчёт электроэнергии
+{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Расчёт электроэнергии</h1>
+    <form name="test" method="post" style="position: absolute;">
+    <p><br>
+    <input type="text" name="address" id="address" class="form-control" placeholder="Ваш адрес" size="40">
+    </p>
+        <p><br>
+    <input type="text" name="roof_type" id="roof_type" class="form-control" placeholder="Тип крыши" size="40">
+        </p>
+        <p><br>
+    <input type="text" name="expenses" id="expenses" class="form-control" placeholder="Затраты на электричество" size="40">
+            <p><br>
+    <input type="text" name="economy" id="economy" class="form-control" placeholder="Желаемая экономия электроэнергии" size="40" style="margin-bottom: 20px;"><br>
+    <input type="submit" class="btn btn-success" value="Отправить">
+    </form>
+</div>
+{% endblock %}
+{% block map %}
+<script>
+    ymaps.ready(function () {
+        var myMap = new ymaps.Map('map', {
+                center: [55.751574, 37.573856],
+                zoom: 9
+            }, {
+                searchControlProvider: 'yandex#search'
+            }),
+
+            // Создаём макет содержимого.
+            MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+            ),
+
+            myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
+                hintContent: 'Собственный значок метки',
+                balloonContent: 'Это красивая метка'
+            }, {
+                // Опции.
+                // Необходимо указать данный тип макета.
+                iconLayout: 'default#image',
+                // Своё изображение иконки метки.
+                iconImageHref: 'images/label.png',
+                // Размеры метки.
+                iconImageSize: [64, 64],
+                // Смещение левого верхнего угла иконки относительно
+                // её "ножки" (точки привязки).
+                iconImageOffset: [-32, -64]
+            });
+
+        myMap.geoObjects
+            .add(myPlacemark)
+            .add(myPlacemarkWithContent);
+    });
+</script>
+{% endblock %}
